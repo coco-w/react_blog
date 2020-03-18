@@ -3,11 +3,12 @@ import Head from 'next/head'
 import Header from '../components/Header'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
-import axios from 'axios'
+// import axios from 'axios'
 import Link from 'next/link'
 import '../static/style/components/index.css'
 import { Row, Col, List, Icon } from 'antd'
 import Main from '../components/Main'
+import { getArticleList } from '../api/default'
 const Home = (list) => {
   const [myList, setMyList] = useState(
     list.data
@@ -44,12 +45,7 @@ const Home = (list) => {
 }
 
 Home.getInitialProps = async ()=>{
-  const promise = new Promise((resolve)=>{
-    axios('http://127.0.0.1:7001/default/getArticleList').then(res=>{        
-        resolve(res.data)
-      }
-    )
-  })
-  return await promise
+  const res = await getArticleList()
+  return res
 }
 export default Home

@@ -4,13 +4,40 @@ import '../static/style/components/detailed.css'
 import Author from '../components/Author'
 import { Row, Col, List, Icon, Breadcrumb, Affix } from 'antd'
 import Main from '../components/Main'
-import ReactMarkdown from 'react-markdown'
-import MarkNav from 'markdown-navbar'
 import axios from 'axios'
 import 'markdown-navbar/dist/navbar.css'
-
+import marked from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
+import Tocify from '../components/tocify.tsx'
+import { getArticleById } from '../api/default'
 const myList = (list) => {
-  let markdown= list.article_content
+  const tocify = new Tocify()
+  const renderer = new marked.Renderer()
+
+  renderer.heading = (text, level, raw) => {
+    const anchor = tocify.add(text, level)
+    return `
+      <a id=${anchor} href='#${anchor}> class='anchor-fix'>
+        <h${level}>${text}</h>
+      </a>\n
+    `
+  }
+  marked.setOptions({
+    renderer: renderer,
+    gfm: true,
+    pedantic: false,
+    sanitize:  false,
+    tables: true,
+    breaks: false,
+    smartLists: true,
+    highlight: code => {
+      return hljs.highlightAuto(code).value
+    }
+  })
+
+  let html  = marked(list.article_content)
+
   return (
     <Main title="detailed">
       <div key="left">
@@ -36,11 +63,9 @@ const myList = (list) => {
             <span><Icon type="folder"/>{list.typeName}</span>
             <span><Icon type="fire"/>{list.view_count}人</span>
           </div>
-          <div className="detailed-content">
-            <ReactMarkdown 
-              source={markdown}
-              escapeHtml={false}
-            />
+          <div className="detailed-content"
+            dangerouslySetInnerHTML={{__html: html}}
+          >         
           </div>
         </div>
       </div>
@@ -51,11 +76,7 @@ const myList = (list) => {
             <div className="nav-title">
               文章目录
             </div>
-            <MarkNav
-              className="article-menu"
-              source={markdown}
-              ordered={false}
-            />
+            {tocify && tocify.render()}
           </div>
         </Affix>
       </div>
@@ -65,12 +86,7 @@ const myList = (list) => {
   )
 }
 myList.getInitialProps = async (context) => {
-  const promise = new Promise((resolve)=>{
-    axios(`http://127.0.0.1:7001/default/getArticleById/${context.query.id}`).then(res=>{        
-        resolve(res.data.data[0])
-      }
-    )
-  })
-  return await promise
+  const res =  await getArticleById(context.query.id)
+  return res.data[0]
 }
 export default myList
