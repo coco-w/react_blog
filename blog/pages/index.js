@@ -9,10 +9,30 @@ import '../static/style/components/index.css'
 import { Row, Col, List, Icon } from 'antd'
 import Main from '../components/Main'
 import { getArticleList } from '../api/default'
+import marked from 'marked'
+import hljs from 'highlight.js'
+
 const Home = (list) => {
   const [myList, setMyList] = useState(
     list.data
   )    
+  const renderer = new marked.Renderer()
+  
+  marked.setOptions({
+    renderer: renderer,
+    gfm: true,
+    pedantic: false,
+    sanitize:  false,
+    tables: true,
+    breaks: false,
+    smartLists: true,
+    highlight: code => {
+      return hljs.highlightAuto(code).value
+    }
+  })
+  myList.forEach(ele => {
+    ele.introduce = marked(ele.introduce)
+  })  
   return (
     <Main title="Home">
       <div key="left">
@@ -34,7 +54,9 @@ const Home = (list) => {
                   <span><Icon type="folder"/> {item.typeName} </span>
                   <span><Icon type="fire"/> {item.viewCount}人 </span>
                 </div>
-                <div className="list-context">{item.introduce}</div>
+                <div className="list-context" 
+                  dangerouslySetInnerHTML={{__html: item.introduce}}
+                ></div>
                 </List.Item>
               )}
             />

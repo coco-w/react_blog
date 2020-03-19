@@ -8,12 +8,32 @@ import { Row, Col, List, Icon, Breadcrumb } from 'antd'
 import Main from '../components/Main'
 import { getArticleListById } from '../api/default'
 import Link from 'next/link'
+import marked from 'marked'
+import hljs from 'highlight.js'
+
 const myList = (list) => {    
   const [ mylists , setMylist ] = useState(list.data)
   useEffect(()=>{
     // console.log(list)
     setMylist(list.data)
    })
+   const renderer = new marked.Renderer()
+  
+   marked.setOptions({
+     renderer: renderer,
+     gfm: true,
+     pedantic: false,
+     sanitize:  false,
+     tables: true,
+     breaks: false,
+     smartLists: true,
+     highlight: code => {
+       return hljs.highlightAuto(code).value
+     }
+   })
+   mylists.forEach(ele => {
+     ele.introduce = marked(ele.introduce)
+   })  
     return (
       <Main title="MyList">
         <div key="left">
@@ -42,7 +62,9 @@ const myList = (list) => {
                   <span><Icon type="folder" /> {item.typeName}</span>
                   <span><Icon type="fire" />  {item.viewCount}人</span>
                 </div>
-                <div className="list-context">{item.introduce}</div>  
+                <div className="list-context"
+                 dangerouslySetInnerHTML={{__html: item.introduce}}
+                ></div>  
               </List.Item>
             )}
           /> 
