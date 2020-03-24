@@ -21,20 +21,21 @@ module.exports = appInfo => {
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
+    secretOrPublicKey: 'key'
   };
   config.mysql = {
     // database configuration
     client: {
       // host
-      host: 'localhost',
+      host: '106.52.70.253',
       // port
       port: '3306',
       // username
-      user: 'root',
+      user: 'test',
       // password
-      password: 'root',
+      password: '123@456',
       // database
-      database: 'react-blog',
+      database: 'react_blog',
     },
     // load into app, default is open
     app: true,

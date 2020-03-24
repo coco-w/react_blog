@@ -2,4 +2,5 @@
 module.exports = app => {
   const { router, controller } = app
   router.post('/admin/login', controller.admin.home.login)
+  router.post('/admin/test', controller.admin.home.test)
 }

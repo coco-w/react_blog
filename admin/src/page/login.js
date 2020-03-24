@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
-import { Card, Input, Button, Spin, Form } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Card, Input, Button, Spin, Form, message } from 'antd'
+
 import {
   UserOutlined,
   KeyOutlined
 } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import '../static/css/login.css'
-
-function Login() {
+import { userLogin } from '../api/app'
+import { setCookie, getCookie, routerPush } from '../lib/index'
+function Login(props) {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -19,15 +21,31 @@ function Login() {
       span: 20,
     },
   }
+  useEffect(() => {
+    console.log('useEffect')
+    if (getCookie('token')) {
+      // console.log(getToken())
+      props.history.push('/')
+    }
+  })
   const checkLogin = () => {
     
     
-  }
+  }  
   const onFinish = values => {
-    setIsLoading(true)
-    setTimeout(() => {
+    setIsLoading(true)    
+    userLogin(values).then(res => {      
       setIsLoading(false)
-    }, 1000)
+      if (res.code == 200) {
+        setCookie('token',res.token, 1)
+        setCookie('user',res.data.userName, 1)
+        console.log(getCookie('token'))
+        props.history.push('/')
+      }else {
+        message.error('账号或密码错误')
+        
+      }
+    })    
   }
 
   const onFinishFailed = errorInfo => {
@@ -85,5 +103,6 @@ function Login() {
     </div>
   )
 }
+
 
 export default Login

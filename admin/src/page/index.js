@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -9,6 +9,8 @@ import {
 } from '@ant-design/icons'
 import '../static/css/index.css'
 import AddArticle from './addArticle'
+import { checkCookie, getCookie } from '../lib/index'
+import { testToken } from '../api/app'
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -18,7 +20,13 @@ function Index() {
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
-  
+  const handleCheckOut = () => {
+    checkCookie('token')
+    console.log(getCookie())
+  }
+  const handleTest = () => {
+    testToken()
+  }
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
@@ -48,7 +56,10 @@ function Index() {
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+        <Header className="site-layout-background" style={{ padding: 0 }} >
+          <Button onClick={handleCheckOut}>登出</Button>
+          <Button onClick={handleTest}>测试</Button>
+        </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>后台管理系统</Breadcrumb.Item>
