@@ -8,30 +8,44 @@ import {
   UserOutlined,
 } from '@ant-design/icons'
 import '../static/css/index.css'
-import AddArticle from './addArticle'
+import { useHistory  } from 'react-router-dom'
+import AddArticle from './AddArticle'
 import { checkCookie, getCookie } from '../lib/index'
-import { testToken } from '../api/app'
+
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-function Index() {
+function MyLayout(props) {
   const [collapsed, setCollapsed] = useState(false)
-  
+  const [activeKey, setActiveKey] = useState(['1'])
+  const history = useHistory()
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
   const handleCheckOut = () => {
     checkCookie('token')
+    checkCookie('user')
+    checkCookie('user_id')
     console.log(getCookie())
   }
-  const handleTest = () => {
-    testToken()
+  const handleMenuClick = (item) => {
+    // console.log(withRouter())    
+  //   console.log(withRouter)
+    setActiveKey([item.key])
+    if (item.key === '1') {
+      history.push('/')      
+    }else if (item.key === '3') {
+      history.push('/addArticle')
+    }else if (item.key === '4') {
+      history.push('/articleList')
+    }
+  
   }
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+        <Menu theme="dark" defaultSelectedKeys={['1']} selectedKeys={activeKey} mode="inline" onClick={handleMenuClick}>
           <Menu.Item key="1">
             <PieChartOutlined />
             <span>工作台</span>
@@ -45,7 +59,9 @@ function Index() {
               </span>
             }
           >
-            <Menu.Item key="3">添加文章</Menu.Item>
+            <Menu.Item key="3">
+              <span>添加文章</span>
+            </Menu.Item>
             <Menu.Item key="4">文章列表</Menu.Item>            
           </SubMenu>
 
@@ -57,8 +73,7 @@ function Index() {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }} >
-          <Button onClick={handleCheckOut}>登出</Button>
-          <Button onClick={handleTest}>测试</Button>
+          <Button onClick={handleCheckOut}>登出</Button>          
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
@@ -66,7 +81,7 @@ function Index() {
             <Breadcrumb.Item>工作台</Breadcrumb.Item>
           </Breadcrumb>
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            <AddArticle></AddArticle>
+            {props.children}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
@@ -76,4 +91,4 @@ function Index() {
 
 }
 
-export default Index
+export default MyLayout

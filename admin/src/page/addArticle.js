@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import marked from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import '../static/css/addArticle.css'
 import {Row, Col, Input, Select, Button, message} from 'antd'
+import { getTypeInfo, addArticle } from '../api/app'
+import MyLayout from './Layout'
 const { Option } = Select
 const { TextArea } = Input
 function AddArticle() {
@@ -14,7 +16,7 @@ function AddArticle() {
   const [title, setTitle] = useState('') //文章标题
   const [id, setId] = useState(0) //文章id
   const [typeInfo, setTypeInfo] = useState([]) //文章所有分类
-  const [type, setType] = useState('1') //文章类型
+  const [type, setType] = useState('请选择') //文章类型
   // const [id, setId] = useState(0) //文章id
   const [submitIsLoading, setSubmitIsLoading] = useState(false)
 
@@ -48,22 +50,56 @@ function AddArticle() {
     setType(val)
   }
   const handleSubmitClick = () => {
-    const obj = {
-      type: type,
-      content: content,
-      contentMD: contentMD,
-      introduce: introduce,
-      introduceMD: introduceMD,
-      title: title,      
+    if (testArticle()) {
+      const obj = {
+        type: type,
+        content: content,
+        contentMD: contentMD,
+        introduce: introduce,
+        introduceMD: introduceMD,
+        title: title,      
+      }    
+      setSubmitIsLoading(true)
+      addArticle(obj).then(res => {
+        setSubmitIsLoading(false)
+        if (res.isSuccess) {
+          message.success('添加文章成功')
+        }else {
+          message.success('添加文章成功')
+        }
+      }).catch(err => {
+        setSubmitIsLoading(false)
+        message.success('添加文章成功')
+      })
     }
-    setSubmitIsLoading(true)
-    setTimeout(() => {
-      setSubmitIsLoading(false)
-      message.success(`提交成功`)
-    }, 1000);
+    
 
   }
-  return (
+  const testArticle = () => {
+    if (!contentMD) {
+      message.error('请输入文章内容')
+      return false
+    }
+    if (!introduceMD) {
+      message.error('请输入文章简介')
+      return false
+    }
+    if (!title) {
+      message.error('请输入文章标题')
+      return false
+    }
+    if (!typeInfo.find(ele => ele.id === type)) {
+      message.error('请选择文章类型')
+      return false
+    }
+    return true
+  }
+  useEffect(() => {
+    getTypeInfo().then(res => {
+      setTypeInfo(res.data)
+    })
+  }, [])
+  return (    
     <Row gutter={5}>
       <Col span={18}>
         <Row gutter={10}>
@@ -81,9 +117,15 @@ function AddArticle() {
               size="large"    
               onChange={handleTypeChange}          
             >
-              <Option value="1">
-                视频教程
-              </Option>
+              {
+                typeInfo.map((ele,index) => {
+                  return (
+                    <Option key={index} value={ele.id}>
+                      {ele.type_info}
+                    </Option>
+                  )
+                })
+              }
             </Select>
           </Col>
         </Row>
@@ -136,7 +178,7 @@ function AddArticle() {
           </Col>
         </Row>
       </Col>
-    </Row>
+    </Row>    
   )
 }
 

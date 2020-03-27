@@ -1,8 +1,10 @@
 import { baseUrl } from '../config/baseConfig.js'
 import { message } from 'antd'
 import { routerPush, getCookie } from '../lib/index'
+import { useHistory  } from 'react-router-dom'
 import axios from 'axios'
 let baseURL = baseUrl
+
 class HttpRequse {
   constructor (baseUrl = baseURL) {
     this.baseUrl = baseUrl
@@ -14,8 +16,10 @@ class HttpRequse {
       headers: {
         //
         token: getCookie('token'),
-        user: getCookie('user')
-      }
+        user: getCookie('user'),
+        user_id: getCookie('user_id')
+      },
+      // withCredentials: true,
     }
     return config
   }
@@ -29,8 +33,11 @@ class HttpRequse {
       if (res.data.code == '401') {
         message.warning('没有登录,正在跳转')
         setTimeout(() => {
-          routerPush('/')
-        }, 1000);
+          window.location.replace('/login')
+        }, 1000)        
+      }
+      if (res.data.code === '400') {
+        message.error(res.data.msg)        
       }
       return res.data
     }, err => {

@@ -39,6 +39,7 @@ function Login(props) {
       if (res.code == 200) {
         setCookie('token',res.token, 1)
         setCookie('user',res.data.userName, 1)
+        setCookie('user_id',res.data.id, 1)
         console.log(getCookie('token'))
         props.history.push('/')
       }else {

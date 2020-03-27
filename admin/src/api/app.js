@@ -16,3 +16,20 @@ export const testToken = params => {
     method: 'post',    
   })
 }
+
+export const getTypeInfo = () => {
+  return axios.request({
+    url: '/admin/getTypeInfo',
+    method: 'get',    
+  })
+}
+
+export const addArticle = data => {
+  return axios.request({
+    url: '/admin/addArticle',
+    method: 'post',    
+    data: {
+      ...data
+    }
+  })
+}

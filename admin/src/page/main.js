@@ -1,14 +1,21 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { useHistory } from "react-router-dom"
 import Login from './login'
-import Index from './index'
-
-
+import MyLayout from './Layout'
+import AddArticle from './AddArticle'
+import Home from './Home'
 function Main() {
   return (
     <Router>
-      <Route path="/login" component={Login} exact></Route>
-      <Route path="/" component={Index} exact></Route>
+      <Switch>
+        <Route path="/login" component={Login} exact></Route>
+        <MyLayout>        
+          <Route path="/" component={Home} exact></Route>
+          <Route path="/addArticle" component={AddArticle} exact></Route>
+        </MyLayout>
+        
+      </Switch>
     </Router>
   )
 }
