@@ -42,6 +42,7 @@ class AdminController extends Controller {
     const article = this.ctx.request.body
     article.create_user = this.ctx.request.header.user_id
     article.create_time = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+    article.view_count = 0
     try {
       const result = await this.app.mysql.insert('article', article)
       const insertType = result.affectedRows === 1

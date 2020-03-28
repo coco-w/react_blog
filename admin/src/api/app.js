@@ -33,3 +33,14 @@ export const addArticle = data => {
     }
   })
 }
+
+export const getArticleList = data => {
+  
+  return axios.request({
+    url: '/admin/getArticleList',
+    method: 'get',    
+    params: {
+      ...data
+    }
+  })
+}

@@ -5,6 +5,7 @@ import Login from './login'
 import MyLayout from './Layout'
 import AddArticle from './AddArticle'
 import Home from './Home'
+import ArticleList from './ArticleList'
 function Main() {
   return (
     <Router>
@@ -13,6 +14,7 @@ function Main() {
         <MyLayout>        
           <Route path="/" component={Home} exact></Route>
           <Route path="/addArticle" component={AddArticle} exact></Route>
+          <Route path="/articleList" component={ArticleList} exact></Route>
         </MyLayout>
         
       </Switch>
