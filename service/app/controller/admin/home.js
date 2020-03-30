@@ -43,6 +43,7 @@ class AdminController extends Controller {
     article.create_user = this.ctx.request.header.user_id
     article.create_time = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     article.view_count = 0
+    article.deleted = 1
     try {
       const result = await this.app.mysql.insert('article', article)
       const insertType = result.affectedRows === 1
@@ -59,6 +60,43 @@ class AdminController extends Controller {
       }
     }
     
+  }
+  async deleteArticle() {
+    let article = {
+      id: this.ctx.request.body.id,
+      deleted: 0
+    }    
+    try {
+      const res = await this.app.mysql.update('article', article)
+      const updateSuccess = res.affectedRows === 1
+      this.ctx.body = {
+        code: '200',
+        isSuccess: updateSuccess,        
+      }
+    } catch (error) {
+      console.log(error)
+      this.ctx.body = {
+        code: '400',
+        msg: '删除文章失败'
+      }
+    }
+  }
+  async updateArticle() {
+    let article = this.ctx.request.body
+    try {
+      const res = await this.app.mysql.update('article', article)
+      const updateSuccess = res.affectedRows === 1
+      this.ctx.body = {
+        code: '200',
+        isSuccess: updateSuccess,        
+      }
+    } catch (error) {
+      console.log(error)
+      this.ctx.body = {
+        code: '400',
+        msg: '修改文章失败'
+      }
+    }
   }
 }
 

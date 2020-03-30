@@ -37,7 +37,8 @@ class HttpRequse {
         }, 1000)        
       }
       if (res.data.code === '400') {
-        message.error(res.data.msg)        
+        message.error(res.data.msg)      
+        return Promise.reject()  
       }
       return res.data
     }, err => {

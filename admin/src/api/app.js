@@ -35,11 +35,41 @@ export const addArticle = data => {
 }
 
 export const getArticleList = data => {
-  
   return axios.request({
     url: '/admin/getArticleList',
     method: 'get',    
     params: {
+      ...data
+    }
+  })
+}
+
+export const getArticleDetail = data => {
+  return axios.request({
+    url: '/admin/getArticleDetail',
+    method: 'get',    
+    params: {
+      ...data
+    }
+  })
+}
+
+export const deleteArticle = data => {
+  return axios.request({
+    url: '/admin/deleteArticle',
+    method: 'delete',    
+    data: {
+      ...data
+    }
+  })
+}
+
+
+export const updateArticle = data => {
+  return axios.request({
+    url: '/admin/updateArticle',
+    method: 'post',    
+    data: {
       ...data
     }
   })

@@ -12,21 +12,23 @@ class HomeController extends Controller {
     try {
       const size = this.ctx.query.pageSize
       const page = (this.ctx.query.page - 1) * size
-      const countSql = `SELECT COUNT(*) as total FROM article`
+      const countSql = `SELECT COUNT(*) as total FROM article WHERE article.deleted=1`
       const res = await this.app.mysql.query(countSql)
       const sql = `
-        SELECT article.id as id,
-        article.title AS title,
-        article.introduce AS introduce,
-        article.create_time AS create_time,
-        article.view_count AS viewCount,
-        article_type.type_info AS type_info 
+        SELECT 
+          article.id as id,
+          article.title AS title,
+          article.introduce AS introduce,
+          article.create_time AS create_time,
+          article.view_count AS viewCount,
+          article_type.type_info AS type_info 
         FROM
           article
-          LEFT JOIN article_type ON article.type = article_type.Id
+          LEFT JOIN article_type ON article.type = article_type.Id        
+        WHERE 
+          article.deleted = 1
         LIMIT ${size} OFFSET ${page}
-      `
-      console.log(sql)
+      `      
       const results = await this.app.mysql.query(sql)    
       
       this.ctx.body = {
@@ -42,21 +44,36 @@ class HomeController extends Controller {
     }
   }
   // 根据id获取文章详细
-  async getArticleById() {
-    const id = this.ctx.params.id
-    const sql = 'SELECT article.id as id,' +
-      'article.title as title,' +
-      'article.introduce as introduce,' +
-      'article.article_content as article_content,' +
-      "FROM_UNIXTIME(article.create_time,'%Y-%m-%d %H:%i:%s' ) as create_time," +
-      'article.view_count as view_count ,' +
-      'type.typeName as typeName ,' +
-      'type.id as typeId ' +
-      'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
-      'WHERE article.id=' + id
-    const results = await this.app.mysql.query(sql)
-    this.ctx.body = {
-      data: results,
+  async getArticleById() {    
+    const id = this.ctx.params.id ? this.ctx.params.id : this.ctx.query.id
+    const sql = `
+      SELECT
+        article.id AS id,
+        article.title AS title,
+        article.introduce AS introduce,
+        article.content AS content,
+        article.create_time AS create_time,
+        article.view_count AS view_count,
+        article.contentMD AS contentMD,
+        article.introduceMD AS introduceMD,
+        article_type.type_info AS type_info,
+        article_type.id AS typeId
+      FROM
+        article
+        LEFT JOIN article_type ON article.type = article_type.Id 
+      WHERE
+        article.id = ${id}
+    `
+    try {
+      const results = await this.app.mysql.query(sql)
+      this.ctx.body = {
+        data: results,
+      }
+    } catch (error) {
+      this.ctx.body = {
+        code: '400',
+        msg: '查询失败'
+      }
     }
   }
   // 获取文章类型
@@ -76,12 +93,14 @@ class HomeController extends Controller {
       'article.view_count as viewCount ,' +
       'type.typeName as typeName ' +
       'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
-      'WHERE type_id=' + id
+      'WHERE type_id=' + id + 
+      'AND article.deleted = 1'
     const results = await this.app.mysql.query(sql)
     this.ctx.body = {
       data: results,
     }
   }
+
 }
 
 module.exports = HomeController

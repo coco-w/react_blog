@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import {
   DesktopOutlined,
@@ -8,7 +8,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons'
 import '../static/css/index.css'
-import { useHistory  } from 'react-router-dom'
+import { useHistory, useLocation  } from 'react-router-dom'
 import AddArticle from './AddArticle'
 import { checkCookie, getCookie } from '../lib/index'
 
@@ -19,6 +19,11 @@ function MyLayout(props) {
   const [collapsed, setCollapsed] = useState(false)
   const [activeKey, setActiveKey] = useState(['1'])
   const history = useHistory()
+  const location = useLocation()
+
+  useEffect(() => {
+    console.log(location)
+  }, [location])
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
