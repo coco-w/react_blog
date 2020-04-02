@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, Component, Fragment} from 'react'
 import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import {
   DesktopOutlined,
@@ -8,9 +8,10 @@ import {
   UserOutlined,
 } from '@ant-design/icons'
 import '../static/css/index.css'
-import { useHistory, useLocation  } from 'react-router-dom'
+import { useHistory, useLocation, NavLink  } from 'react-router-dom'
 import AddArticle from './AddArticle'
 import { checkCookie, getCookie } from '../lib/index'
+import routes from '@/config/routerConfig.js'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -46,12 +47,38 @@ function MyLayout(props) {
     }
   
   }
+  const renderMenu = data => {
+    return data.map(ele => {
+      if (ele.children) {
+        return (
+          <SubMenu 
+            title={
+              <span>
+                {ele.icon ? ele.icon():''}
+                <span>{ele.meta}</span>
+              </span>
+            } 
+            key={ele.path} 
+          >
+                
+            {renderMenu(ele.children)}
+          </SubMenu>
+        )
+      }
+      return <Menu.Item>
+        {ele.icon ? ele.icon():''}
+        <NavLink to={ele.path}>{ele.meta}</NavLink>
+      </Menu.Item>
+    })
+    
+  }
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} selectedKeys={activeKey} mode="inline" onClick={handleMenuClick}>
-          <Menu.Item key="1">
+        <Menu theme="dark" defaultSelectedKeys={['1']} selectedKeys={activeKey} mode="inline" onClick={handleMenuClick}>  
+        {renderMenu(routes)}        
+          {/* <Menu.Item key="1">
             <PieChartOutlined />
             <span>工作台</span>
           </Menu.Item>
@@ -73,7 +100,7 @@ function MyLayout(props) {
           <Menu.Item key="9">
             <FileOutlined />
             <span>留言管理</span>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sider>
       <Layout className="site-layout">
