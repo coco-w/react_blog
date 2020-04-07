@@ -4,7 +4,6 @@ import '../static/style/components/detailed.css'
 import Author from '../components/Author'
 import { Row, Col, List, Icon, Breadcrumb, Affix } from 'antd'
 import Main from '../components/Main'
-import axios from 'axios'
 import 'markdown-navbar/dist/navbar.css'
 import marked from 'marked'
 import hljs from 'highlight.js'
@@ -14,8 +13,9 @@ import { getArticleById } from '../api/default'
 const myList = (list) => {
   const tocify = new Tocify()
   const renderer = new marked.Renderer()
-
+  console.log(list)
   renderer.heading = (text, level, raw) => {
+    console.log(text, level)
     const anchor = tocify.add(text, level)
     return `
       <a id=${anchor} href='#${anchor}> class='anchor-fix'>
@@ -36,7 +36,7 @@ const myList = (list) => {
     }
   })
 
-  let html  = marked(list.article_content)
+  let html  = marked(list.content)
 
   return (
     <Main title="detailed">
@@ -47,7 +47,7 @@ const myList = (list) => {
               <a href="/">首页</a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/">{list.typeName}</a>
+              <a href="/">{list.type_info}</a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
               {list.title}
@@ -59,8 +59,8 @@ const myList = (list) => {
           {list.title}
           </div>
           <div className="list-icon center">
-            <span><Icon type="calendar"/>{list.addTime}</span>
-            <span><Icon type="folder"/>{list.typeName}</span>
+            <span><Icon type="calendar"/>{list.create_time}</span>
+            <span><Icon type="folder"/>{list.type_info}</span>
             <span><Icon type="fire"/>{list.view_count}人</span>
           </div>
           <div className="detailed-content"

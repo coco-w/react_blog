@@ -7,12 +7,14 @@ import Link from 'next/link'
 const Header = () => {
   const [ navArray, setNavArray ] = useState([])
   useEffect(() => {
-    getArticleType().then(res => {
+    const fetchData = async () => {
+      const res = await getArticleType()
       setNavArray(res.data)
-    })
+      console.log(res.data)
+    }
+    fetchData()
   },[])
-  const handleClick = (e) => {   
-    console.log(e) 
+  const handleClick = (e) => {       
     if (e.key == 0) {
       Router.push('/index')
     }else {
@@ -36,20 +38,10 @@ const Header = () => {
               navArray.map((item,index) => (
                 <Menu.Item key={index + 1}>
                   <Icon type={item.icon}/>
-                  {item.typeName}
+                  {item.type_info}
                 </Menu.Item> 
               ))
             }
-            {/*
-            <Menu.Item key="video">
-              <Icon type="youtube"></Icon>
-              视频
-            </Menu.Item>
-            <Menu.Item key="life"> 
-              <Icon type="smile"></Icon>
-              生活
-            </Menu.Item>
-            */}
           </Menu>
         </Col>
       </Row>

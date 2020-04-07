@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons'
 import '../static/css/index.css'
 import { useHistory, useLocation, NavLink  } from 'react-router-dom'
-import AddArticle from './AddArticle'
+// import AddArticle from './AddArticle'
 import { checkCookie, getCookie } from '../lib/index'
 import routes from '@/config/routerConfig.js'
 

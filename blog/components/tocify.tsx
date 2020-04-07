@@ -1,6 +1,6 @@
 import React from 'react';
 import { Anchor } from 'antd';
-import { last } from 'loadsh';
+import { last } from 'lodash';
 
 const { Link } = Anchor;
 

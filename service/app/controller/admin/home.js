@@ -28,15 +28,13 @@ class AdminController extends Controller {
       }
     }
   }
-  
-  async getTypeInfo() {
-    const res = await this.app.mysql.select('article_type') 
-    // console.log(res)
+  async getTypeInfo() {    
+    const res = await this.app.mysql.select('article_type')
     this.ctx.body = {
       code: '200',
-      data: res      
+      data: res,
     }
-  }  
+  }
 
   async addArticle() {
     const article = this.ctx.request.body
@@ -47,42 +45,41 @@ class AdminController extends Controller {
     try {
       const result = await this.app.mysql.insert('article', article)
       const insertType = result.affectedRows === 1
-      const insertId= result.insertId
+      const insertId = result.insertId
       this.ctx.body = {
         code: '200',
         isSuccess: insertType,
-        inserId: insertId
+        inserId: insertId,
       }
     } catch (error) {
       this.ctx.body = {
         code: '400',
-        msg: '添加文章失败'
+        msg: '添加文章失败',
       }
     }
-    
   }
   async deleteArticle() {
-    let article = {
+    const article = {
       id: this.ctx.request.body.id,
-      deleted: 0
-    }    
+      deleted: 0,
+    }
     try {
       const res = await this.app.mysql.update('article', article)
       const updateSuccess = res.affectedRows === 1
       this.ctx.body = {
         code: '200',
-        isSuccess: updateSuccess,        
+        isSuccess: updateSuccess,
       }
     } catch (error) {
       console.log(error)
       this.ctx.body = {
         code: '400',
-        msg: '删除文章失败'
+        msg: '删除文章失败',
       }
     }
   }
   async updateArticle() {
-    let article = this.ctx.request.body
+    const article = this.ctx.request.body
     try {
       const res = await this.app.mysql.update('article', article)
       const updateSuccess = res.affectedRows === 1
@@ -94,7 +91,7 @@ class AdminController extends Controller {
       console.log(error)
       this.ctx.body = {
         code: '400',
-        msg: '修改文章失败'
+        msg: '修改文章失败',
       }
     }
   }

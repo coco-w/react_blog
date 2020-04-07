@@ -11,9 +11,13 @@ export const getArticleById = id => {
 }
 
 //首页
-export const getArticleList = () => {
+export const getArticleList = params => {
   return new Promise(resolve => {
-    axios(`${baseUrl}/default/getArticleList`).then(res => {
+    axios(`${baseUrl}/default/getArticleList`, {
+      params: {
+        ...params
+      }
+    }).then(res => {
       resolve(res.data)
     })
   })

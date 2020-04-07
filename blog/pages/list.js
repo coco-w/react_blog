@@ -58,9 +58,9 @@ const myList = (list) => {
                   </Link>
                 </div>
                 <div className="list-icon">
-                  <span><Icon type="calendar" />{item.addTime}</span>
-                  <span><Icon type="folder" /> {item.typeName}</span>
-                  <span><Icon type="fire" />  {item.viewCount}人</span>
+                  <span><Icon type="calendar"/> {item.create_time} </span>
+                  <span><Icon type="folder"/> {item.type_info} </span>
+                  <span><Icon type="fire"/> {item.viewCount}人 </span>
                 </div>
                 <div className="list-context"
                  dangerouslySetInnerHTML={{__html: item.introduce}}
