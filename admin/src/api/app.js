@@ -74,3 +74,10 @@ export const updateArticle = data => {
     }
   })
 }
+
+export const getUploadToken = () => {
+  return axios.request({
+    url: '/upload/uptoken',
+    method: 'get',        
+  })
+}

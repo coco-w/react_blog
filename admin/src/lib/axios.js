@@ -34,7 +34,7 @@ class HttpRequse {
         message.warning('没有登录,正在跳转')
         setTimeout(() => {
           window.location.replace('/login')
-        }, 1000)        
+        }, 200)        
       }
       if (res.data.code === '400') {
         message.error(res.data.msg)      

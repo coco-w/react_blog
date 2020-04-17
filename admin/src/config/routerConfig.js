@@ -10,6 +10,7 @@ export default [
   {
     path: '/',    //  一级路由path
     meta: '主页',     //  导航名称
+    id: 1,
     icon: () => {
       return (
         <PieChartOutlined/>
@@ -22,6 +23,7 @@ export default [
     meta: '文章管理',
     icon: '',
     role: [],
+    id: 2,
     icon: () => {
       return (
         <UserOutlined/>
@@ -33,6 +35,7 @@ export default [
         meta: '添加文章',
         icon: '',
         role: [],
+        id: 3,
         icon: () => {
           
         },   
@@ -42,6 +45,7 @@ export default [
         meta: '文章列表',
         icon: '',
         role: [],
+        id: 4,
         icon: () => {
           
         },   

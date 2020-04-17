@@ -12,19 +12,21 @@ import { useHistory, useLocation, NavLink  } from 'react-router-dom'
 // import AddArticle from './AddArticle'
 import { checkCookie, getCookie } from '../lib/index'
 import routes from '@/config/routerConfig.js'
-
+import { deepFindFirst } from '@/util'
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 function MyLayout(props) {
   const [collapsed, setCollapsed] = useState(false)
-  const [activeKey, setActiveKey] = useState(['1'])
+  const [activeKey, setActiveKey] = useState(['3'])
   const history = useHistory()
   const location = useLocation()
 
   useEffect(() => {
-    console.log(location)
-  }, [location])
+    const active = deepFindFirst(routes, location.pathname, 'path')
+    // console.log
+    setActiveKey([`${active.id}`])
+  }, [])
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
@@ -58,14 +60,14 @@ function MyLayout(props) {
                 <span>{ele.meta}</span>
               </span>
             } 
-            key={ele.path} 
+            key={ele.id} 
           >
                 
             {renderMenu(ele.children)}
           </SubMenu>
         )
       }
-      return <Menu.Item>
+      return <Menu.Item key={ele.id}>
         {ele.icon ? ele.icon():''}
         <NavLink to={ele.path}>{ele.meta}</NavLink>
       </Menu.Item>
@@ -76,31 +78,8 @@ function MyLayout(props) {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} selectedKeys={activeKey} mode="inline" onClick={handleMenuClick}>  
-        {renderMenu(routes)}        
-          {/* <Menu.Item key="1">
-            <PieChartOutlined />
-            <span>工作台</span>
-          </Menu.Item>
-          <SubMenu
-            key="sub1"
-            title={
-              <span>
-                <UserOutlined />
-                <span>文章管理</span>
-              </span>
-            }
-          >
-            <Menu.Item key="3">
-              <span>添加文章</span>
-            </Menu.Item>
-            <Menu.Item key="4">文章列表</Menu.Item>            
-          </SubMenu>
-
-          <Menu.Item key="9">
-            <FileOutlined />
-            <span>留言管理</span>
-          </Menu.Item> */}
+        <Menu theme="dark" defaultSelectedKeys={activeKey} defaultOpenKeys={['2']} mode="inline" onClick={handleMenuClick}>  
+        {renderMenu(routes)}
         </Menu>
       </Sider>
       <Layout className="site-layout">

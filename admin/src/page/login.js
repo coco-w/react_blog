@@ -44,9 +44,11 @@ function Login(props) {
         props.history.push('/')
       }else {
         message.error('账号或密码错误')
-        
       }
-    })    
+    }).catch(err => {
+      message.error('服务器异常')
+      setIsLoading(false)
+    })
   }
 
   const onFinishFailed = errorInfo => {

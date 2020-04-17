@@ -48,11 +48,13 @@ class HomeController extends Controller {
     const ipSql = `
       SELECT
         count(*) AS count,
-        ip_view__count.time AS time 
+        ip_view__count.time AS time,
+        ip_view__count.id AS id
       FROM
         ip_view__count 
       WHERE
-        ip_view__count.address = ${ip}
+        ip_view__count.address = '${ip}' 
+        AND ip_view__count.article_id = '${id}'
     `
     const nowTime = new Date().getTime()
     const sql = `
@@ -79,12 +81,31 @@ class HomeController extends Controller {
         data: results,
       }
       const res = await this.app.mysql.query(ipSql)
-      // if (res.count !== 0) {
-      //   if (nowTime - res.time > 1800000) {
-
-      //   }
-      // }
+      const temp = {
+        id: results[0].id,
+        view_count: results[0].view_count,
+      }
+      const temp2 = {
+        id: res[0].id,
+        time: nowTime,
+      }
+      temp.view_count++
+      if (res[0].count !== 0) {
+        if (nowTime - res[0].time > 1800000) {
+          this.app.mysql.update('article', temp)
+          this.app.mysql.update('ip_view__count', temp2)
+        }
+      } else {
+        const obj = {
+          time: nowTime,
+          address: ip,
+          article_id: id,
+        }
+        this.app.mysql.insert('ip_view__count', obj)
+        this.app.mysql.update('article', temp)
+      }
     } catch (error) {
+      console.log(error)
       this.ctx.body = {
         code: '400',
         msg: '查询失败',
@@ -93,7 +114,6 @@ class HomeController extends Controller {
   }
   // 获取文章类型
   async getArticleType() {
-    
     const results = await this.app.mysql.select('article_type')
     this.ctx.body = {
       data: results,

@@ -13,14 +13,14 @@ class AdminController extends Controller {
       user.id as id
       FROM user 
       WHERE user.userName='${userName}' AND user.password = '${password}'
-    `    
-    const results = await this.app.mysql.query(sql)    
+    `
+    const results = await this.app.mysql.query(sql)
     if (results.length > 0) {
-      const tk = jwt.sign({msg: results[0]}, 'key')
+      const tk = jwt.sign({ msg: results[0] }, 'key')
       this.ctx.body = {
         code: '200',
         data: results[0],
-        token: tk
+        token: tk,
       }
     } else {
       this.ctx.body = {

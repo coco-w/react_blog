@@ -13,9 +13,7 @@ import { getArticleById } from '../api/default'
 const myList = (list) => {
   const tocify = new Tocify()
   const renderer = new marked.Renderer()
-  console.log(list)
   renderer.heading = (text, level, raw) => {
-    console.log(text, level)
     const anchor = tocify.add(text, level)
     return `
       <a id=${anchor} href='#${anchor}> class='anchor-fix'>
