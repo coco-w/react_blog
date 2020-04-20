@@ -27,7 +27,8 @@ class HomeController extends Controller {
           LEFT JOIN article_type ON article.type = article_type.Id        
         WHERE 
           article.deleted = 1
-        LIMIT ${size} OFFSET ${page}
+        ORDER BY create_time DESC
+        LIMIT ${size} OFFSET ${page}        
       `
       const results = await this.app.mysql.query(sql)      
       this.ctx.body = {
@@ -137,10 +138,15 @@ class HomeController extends Controller {
       article.deleted = 1 AND article.type = ${id}
     
     `
+    const typeSql = `
+      SELECT * FROM article_type WHERE id = '${id}'
+    `
     try {
       const results = await this.app.mysql.query(sql)
+      const res = await this.app.mysql.query(typeSql)
       this.ctx.body = {
         data: results,
+        typeInfo: res[0].type_info,
       }
     } catch (error) {
       this.ctx.body = {
