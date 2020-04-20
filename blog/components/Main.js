@@ -13,11 +13,11 @@ const Main = (props) => {
   }
     return (
       <div>
-        <Head>
+        <Head init={true}>
           <title>{props.title}</title>      
         </Head>    
         <Header />
-        <Row className="comm-main" type="flex" justify="center">
+        <Row className="comm-main" type="flex" justify="center" id="pNprogress">
           <Col className="comm-left" xs={24} sm={24} md={17} lg={13} lx={14}>            
           {render('left')}
           </Col>

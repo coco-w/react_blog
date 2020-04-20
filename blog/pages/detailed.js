@@ -10,7 +10,8 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import Tocify from '../components/tocify.tsx'
 import { getArticleById } from '../api/default'
-const myList = (list) => {
+import Link from 'next/link'
+const myList = (data) => {
   const tocify = new Tocify()
   const renderer = new marked.Renderer()
   renderer.heading = (text, level, raw) => {
@@ -34,7 +35,7 @@ const myList = (list) => {
     }
   })
 
-  let html  = marked(list.content)
+  let html  = marked(data.list.content)
 
   return (
     <Main title="detailed">
@@ -42,24 +43,28 @@ const myList = (list) => {
         <div className="bread-div">
           <Breadcrumb>
             <Breadcrumb.Item>
-              <a href="/">首页</a>
+              <Link href={{pathname: '/', query: {page: data.page}}}>
+                <a>首页</a>
+              </Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/">{list.type_info}</a>
+              <Link href={{pathname: "/list", query: {id: data.list.typeId}}}>
+                <a>{data.list.type_info}</a>
+              </Link>              
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              {list.title}
+              {data.list.title}
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div>
           <div className="detailed-title">
-          {list.title}
+          {data.list.title}
           </div>
           <div className="list-icon center">
-            <span><Icon type="calendar"/>{list.create_time}</span>
-            <span><Icon type="folder"/>{list.type_info}</span>
-            <span><Icon type="fire"/>{list.view_count}人</span>
+            <span><Icon type="calendar"/>{data.list.create_time}</span>
+            <span><Icon type="folder"/>{data.list.type_info}</span>
+            <span><Icon type="fire"/>{data.list.view_count}人</span>
           </div>
           <div className="detailed-content"
             dangerouslySetInnerHTML={{__html: html}}
@@ -85,6 +90,10 @@ const myList = (list) => {
 }
 myList.getInitialProps = async (context) => {
   const res =  await getArticleById(context.query.id)
-  return res.data[0]
+  let page = context.query.page ? context.query.page : 1
+  return {
+    list: res.data[0],
+    page: page
+  }
 }
 export default myList

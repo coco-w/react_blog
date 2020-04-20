@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import '../static/style/components/header.css'
 import { Row, Col, Menu, Icon } from 'antd'
 import { getArticleType } from '../api/default'
 import Router from 'next/router'
 import Link from 'next/link'
-const Header = () => {
+const Header = (props) => {
   const [ navArray, setNavArray ] = useState([])
   useEffect(() => {
+    console.log('header - init')
     const fetchData = async () => {
       const res = await getArticleType()
-      setNavArray(res.data)
-      console.log(res.data)
+      setNavArray(res.data)      
     }
     fetchData()
-  },[])
-  const handleClick = (e) => {       
-    if (e.key == 0) {
-      Router.push('/index')
-    }else {
-      Router.push(`/list/?id=${e.key}`)
-    }
-  }
+  },[props.init])
   return (
     <div className="header">
       <Row type="flex" justify="center">
@@ -29,16 +22,24 @@ const Header = () => {
           <span className="header-text">这是王林强的博客,欢迎你的到来!!!</span>
         </Col>
         <Col  xs={0} sm={0} md={14} lg={8} xl={6}>
-          <Menu mode="horizontal" onClick={handleClick}>
+          <Menu mode="horizontal">
             <Menu.Item key='0'>
-              <Icon type="home"/>
-              首页
+                <Link href="/index">
+                  <a>
+                    <Icon type="home"/>
+                    首页
+                  </a>
+                </Link>
             </Menu.Item>
             {
               navArray.map((item,index) => (
                 <Menu.Item key={index + 1}>
-                  <Icon type={item.icon}/>
-                  {item.type_info}
+                  <Link href={{pathname: '/list', query: { id: item.id }}}>
+                    <a>
+                      <Icon type={item.icon}/>
+                      {item.type_info}
+                    </a>
+                  </Link>                  
                 </Menu.Item> 
               ))
             }
