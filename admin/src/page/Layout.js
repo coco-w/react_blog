@@ -1,12 +1,6 @@
 import React, {useState, useEffect, Component, Fragment} from 'react'
 import { Layout, Menu, Breadcrumb, Button } from 'antd';
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import * as Icon from '@ant-design/icons'
 import '../static/css/index.css'
 import { useHistory, useLocation, NavLink  } from 'react-router-dom'
 // import AddArticle from './AddArticle'
@@ -19,14 +13,6 @@ const { SubMenu } = Menu;
 function MyLayout(props) {
   const [collapsed, setCollapsed] = useState(false)
   const [activeKey, setActiveKey] = useState(['3'])
-  const history = useHistory()
-  const location = useLocation()
-
-  useEffect(() => {
-    const active = deepFindFirst(routes, location.pathname, 'path')
-    // console.log
-    setActiveKey([`${active.id}`])
-  }, [])
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
@@ -36,27 +22,15 @@ function MyLayout(props) {
     checkCookie('user_id')
     console.log(getCookie())
   }
-  const handleMenuClick = (item) => {
-    // console.log(withRouter())    
-  //   console.log(withRouter)
-    setActiveKey([item.key])
-    if (item.key === '1') {
-      history.push('/')      
-    }else if (item.key === '3') {
-      history.push('/addArticle')
-    }else if (item.key === '4') {
-      history.push('/articleList')
-    }
-  
-  }
   const renderMenu = data => {
     return data.map(ele => {
+      const icon = ele.icon ? React.createElement(Icon[ele.icon]) : ''
       if (ele.children) {
         return (
           <SubMenu 
             title={
               <span>
-                {ele.icon ? ele.icon():''}
+                {icon}
                 <span>{ele.meta}</span>
               </span>
             } 
@@ -67,10 +41,12 @@ function MyLayout(props) {
           </SubMenu>
         )
       }
-      return <Menu.Item key={ele.id}>
-        {ele.icon ? ele.icon():''}
-        <NavLink to={ele.path}>{ele.meta}</NavLink>
-      </Menu.Item>
+      return (
+        <Menu.Item key={ele.id}>
+          {icon}
+          <NavLink to={ele.path}>{ele.meta}</NavLink>
+        </Menu.Item>
+      )
     })
     
   }
@@ -78,7 +54,7 @@ function MyLayout(props) {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={activeKey} defaultOpenKeys={['2']} mode="inline" onClick={handleMenuClick}>  
+        <Menu theme="dark" defaultSelectedKeys={activeKey} defaultOpenKeys={['2']} mode="inline">  
         {renderMenu(routes)}
         </Menu>
       </Sider>

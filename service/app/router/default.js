@@ -5,5 +5,5 @@ module.exports = app => {
   router.get('/default/getArticleList', controller.default.home.getArticleList)
   router.get('/default/getArticleById/:id', controller.default.home.getArticleById)
   router.get('/default/getArticleType', controller.default.home.getArticleType)
-  router.get('/default/getArticleListById/:id', controller.default.home.getArticleListById)
+  router.get('/default/getArticleListById', controller.default.home.getArticleListById)
 };

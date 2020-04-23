@@ -1,22 +1,29 @@
 import React,{useState, useEffect} from 'react'
-import Head from 'next/head'
-import Header from '../components/Header'
 import Author from '../components/Author'
-import Footer from '../components/Footer'
 import '../static/style/components/index.css'
-import { Row, Col, List, Icon, Breadcrumb } from 'antd'
+import Router from 'next/router'
+import { Row, Col, List, Icon, Breadcrumb, Pagination } from 'antd'
 import Main from '../components/Main'
 import { getArticleListById } from '../api/default'
 import Link from 'next/link'
 import marked from 'marked'
 import hljs from 'highlight.js'
 
-const myList = (list) => {    
-  const [ mylists , setMylist ] = useState(list.data)
+const myList = (data) => {    
+  const [ mylists , setMylist ] = useState(data.data)
+  const [total, setTotal] = useState(
+    data.total
+  )
+  const [myPage, setMyPage] = useState(data.page)
   useEffect(()=>{
-    // console.log(list)
-    setMylist(list.data)
-   })
+    setMylist(data.data)
+    setTotal(data.total)
+    setMyPage(data.page)
+   }, [data])
+  const handlePaginationChange = async (page) => {
+    Router.push({pathname: '/list', query: { page: page, id: data.typeId }, })
+    await getArticleListById({pageSize: 5, page: page, id: data.typeId})
+  }
   const renderer = new marked.Renderer()
   
   marked.setOptions({
@@ -40,7 +47,7 @@ const myList = (list) => {
               <a href="/">首页</a>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              {list.typeInfo}
+              {data.typeInfo}
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -61,15 +68,22 @@ const myList = (list) => {
               </div>
             </List.Item>
           )}
-        /> 
+        />
+        <Pagination defaultCurrent={String(data.page)} total={total} pageSize={5} onChange={handlePaginationChange}/>
       </div>
       <Author key="right"></Author>  
     </Main>     
   )
 }
 
-myList.getInitialProps = async (ctx) => {  
-  return await getArticleListById(ctx.query.id)  
-  //  res.data
+myList.getInitialProps = async (ctx) => {
+  const page = ctx.query.page ? ctx.query.page : 1
+  const typeId = ctx.query.id
+  const res =  await getArticleListById({id: typeId, pageSize: 5, page: page})
+  return {
+    ...res,
+    page,
+    typeId,
+  }
 }
 export default myList

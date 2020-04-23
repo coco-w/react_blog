@@ -33,9 +33,13 @@ export const getArticleType = () => {
 }
 
 //根据类型查文章
-export const getArticleListById = id => {
+export const getArticleListById = params => {
   return new Promise(resolve => {
-    axios(`${baseUrl}/default/getArticleListById/${id}`).then(res => {
+    axios(`${baseUrl}/default/getArticleListById`, {
+      params: {
+        ...params
+      }
+    }).then(res => {
       resolve(res.data)
     })
   })

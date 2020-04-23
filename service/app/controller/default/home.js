@@ -122,7 +122,10 @@ class HomeController extends Controller {
   }
   // 根据类型获取文章
   async getArticleListById(ctx) {
-    const id = ctx.params.id
+    const size = this.ctx.query.pageSize
+    console.log(ctx.query)
+    const page = (this.ctx.query.page - 1) * size
+    const id = ctx.query.id
     const sql = `
     SELECT 
       article.id as id,
@@ -135,18 +138,22 @@ class HomeController extends Controller {
       article
       LEFT JOIN article_type ON article.type = article_type.Id        
     WHERE 
-      article.deleted = 1 AND article.type = ${id}
-    
+      article.deleted = 1 AND article.type = ${id}      
+    ORDER BY create_time DESC
+    LIMIT ${size} OFFSET ${page}
     `
     const typeSql = `
       SELECT * FROM article_type WHERE id = '${id}'
     `
+    const countSql = `SELECT COUNT(*) as total FROM article WHERE article.deleted=1 AND article.type = ${id}`
     try {
       const results = await this.app.mysql.query(sql)
       const res = await this.app.mysql.query(typeSql)
+      const count = await this.app.mysql.query(countSql)
       this.ctx.body = {
         data: results,
         typeInfo: res[0].type_info,
+        total: count[0].total,
       }
     } catch (error) {
       this.ctx.body = {

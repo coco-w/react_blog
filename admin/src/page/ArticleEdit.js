@@ -85,7 +85,7 @@ function ArticleEdit(props) {
       setSubmitBtnText('修改文章')
       setIsUpdate(true)
       getArticleDetail({id}).then(res => {
-        const data = res.data[0]
+        const data = (res.data[0])
         setContent(data.content)
         setId(data.id)
         setTitle(data.title)

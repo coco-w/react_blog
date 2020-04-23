@@ -54,7 +54,7 @@ function Tinymce(props, ref) {
           addImg={handleAddImg}
           value={value}
           onChange={handleChange}
-          height={props.height ? props.height : '600px'}
+          // height={props.height ? props.height : '600px'}
         />
       </Spin>
     </div>
