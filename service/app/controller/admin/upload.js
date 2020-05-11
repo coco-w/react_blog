@@ -8,7 +8,7 @@ class UploadController extends Controller {
     const accessKey = 'bUrJXj_xf6jGAvqIrhZuVb4DG8mLG2FeLMWyl7R3'
     const secretKey = 'tIk5OxxA8BWlL_OCsyPMXAABE7uhAiPyH7WDjXoI'
     const options = {
-      scope: 'blog535346881',
+      scope: 'test3333344444',
       expires: 7200,
       returnBody: '{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucket)","name":"$(x:name)"}',
     }

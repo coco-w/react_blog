@@ -16,9 +16,9 @@ function Main() {
         <Route path="/login" component={Login} exact></Route>
         <MyLayout>        
           <Route path="/" component={Home} exact></Route>
-          <Route path="/addArticle" component={ArticleEdit} exact></Route>
-          <Route path="/addArticle/:id" component={ArticleEdit} exact></Route>
-          <Route path="/articleList" component={ArticleList} exact></Route>          
+          <Route path="/article/addArticle" component={ArticleEdit} exact></Route>
+          <Route path="/article/addArticle/:id" component={ArticleEdit} exact></Route>
+          <Route path="/article/articleList" component={ArticleList} exact></Route>          
         </MyLayout>
         
       </Switch>

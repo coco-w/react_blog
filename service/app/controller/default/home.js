@@ -30,7 +30,7 @@ class HomeController extends Controller {
         ORDER BY create_time DESC
         LIMIT ${size} OFFSET ${page}        
       `
-      const results = await this.app.mysql.query(sql)      
+      const results = await this.app.mysql.query(sql)
       this.ctx.body = {
         data: results,
         total: res[0].total,

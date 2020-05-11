@@ -9,30 +9,37 @@ export default [
     role: [],    //  适用权限
   },
   {
-    path: '/user',
+    path: '/article',
     meta: '文章管理',
     role: [],
     id: 2,
-    icon: 'UserOutlined',
+    icon: 'FileOutlined',
     children: [
       {
-        path: '/addArticle',
+        path: '/article/addArticle',
         meta: '添加文章',
-        icon: '',
+        icon: 'FileAddOutlined',
         role: [],
         id: 3,
         
       },
       {
-        path: '/articleList',
+        path: '/article/articleList',
         meta: '文章列表',
-        icon: '',
+        icon: 'FileDoneOutlined',
         role: [],
         id: 4,
       
 
       },
     ]
+  },
+  {
+    path: '/user',
+    meta: '我的信息',
+    icon: 'UserOutlined',
+    id: 5,
+    role: [],
   }
 
 ]

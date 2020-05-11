@@ -12,9 +12,23 @@ const { SubMenu } = Menu;
 
 function MyLayout(props) {
   const [collapsed, setCollapsed] = useState(false)
-  const [activeKey, setActiveKey] = useState(['3'])
+  const [activeSelectedKey, setActiveSelectedKey] = useState('')
+  const [activeOpenKey, setActiveOpenKey] = useState('')
+  const url = useLocation()
+  useEffect(() => {
+    
+  }, [])
   const onCollapse = () => {
     setCollapsed(!collapsed)
+  }
+  const getOpenSub = () => {
+    const activeRouter = deepFindFirst(routes, url.pathname, 'path')
+    
+    if (activeRouter.length > 1) {
+      return activeRouter[1].path
+    }else {
+      return ''
+    }
   }
   const handleCheckOut = () => {
     checkCookie('token')
@@ -23,6 +37,7 @@ function MyLayout(props) {
     console.log(getCookie())
   }
   const renderMenu = data => {
+    
     return data.map(ele => {
       const icon = ele.icon ? React.createElement(Icon[ele.icon]) : ''
       if (ele.children) {
@@ -34,7 +49,7 @@ function MyLayout(props) {
                 <span>{ele.meta}</span>
               </span>
             } 
-            key={ele.id} 
+            key={ele.path} 
           >
                 
             {renderMenu(ele.children)}
@@ -42,7 +57,7 @@ function MyLayout(props) {
         )
       }
       return (
-        <Menu.Item key={ele.id}>
+        <Menu.Item key={ele.path}>
           {icon}
           <NavLink to={ele.path}>{ele.meta}</NavLink>
         </Menu.Item>
@@ -50,11 +65,13 @@ function MyLayout(props) {
     })
     
   }
+  
   return (
+    
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={activeKey} defaultOpenKeys={['2']} mode="inline">  
+        <Menu theme="dark" defaultSelectedKeys={[url.pathname]} defaultOpenKeys={[getOpenSub()]} mode="inline">  
         {renderMenu(routes)}
         </Menu>
       </Sider>

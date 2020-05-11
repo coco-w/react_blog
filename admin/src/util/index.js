@@ -17,16 +17,16 @@ export const randomNum = () => {
 }
 
 export const deepFindFirst = (arr, val, key) => {  
-  let result = null  
+  let result = null
   try {
-    (function poll(arr) {
+    (function poll(arr, parent) {
       for (let i = 0; i < arr.length; i++) {
         const ele = arr[i]        
         if (ele[key] === val) {
-          result = ele
+          parent ? result = [ele, parent] : result = [ele]
           break
         }else if(ele.children) {
-          poll(ele.children)
+          poll(ele.children, ele)
         }
       }
     })(arr)
