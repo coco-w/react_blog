@@ -24,3 +24,7 @@
 h1 {
   font-size: 2rem;
 }
+
+.CodeMirror {
+  height: 675px;
+}

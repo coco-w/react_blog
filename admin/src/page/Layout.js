@@ -14,21 +14,40 @@ function MyLayout(props) {
   const [collapsed, setCollapsed] = useState(false)
   const [activeSelectedKey, setActiveSelectedKey] = useState('')
   const [activeOpenKey, setActiveOpenKey] = useState('')
+  const [breadcrumbArray, setBreadcrumbArray] = useState([])
   const url = useLocation()
   useEffect(() => {
-    
-  }, [])
+    getbreadcrumb()
+    console.log(url)
+  }, [url])
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
+  const getActiveRouter = () => {
+    const reg = /\/[0-9]+$/
+    console.log(url.pathname.replace(reg, ''))
+    return deepFindFirst(routes, url.pathname.replace(reg, ''), 'path')
+  }
+  
+  const getbreadcrumb = () => {
+    const activeRouter = getActiveRouter().reverse()
+    
+    setBreadcrumbArray(activeRouter)
+  }
   const getOpenSub = () => {
-    const activeRouter = deepFindFirst(routes, url.pathname, 'path')
+    
+    const activeRouter = getActiveRouter()
     
     if (activeRouter.length > 1) {
       return activeRouter[1].path
     }else {
       return ''
     }
+  }
+  const getActiveSelectKey = () => {
+    const path = getActiveRouter()[0].path
+    console.log(path)
+    return path
   }
   const handleCheckOut = () => {
     checkCookie('token')
@@ -56,12 +75,15 @@ function MyLayout(props) {
           </SubMenu>
         )
       }
-      return (
-        <Menu.Item key={ele.path}>
-          {icon}
-          <NavLink to={ele.path}>{ele.meta}</NavLink>
-        </Menu.Item>
-      )
+      if (!ele.hide) {
+        return (
+          <Menu.Item key={ele.path}>
+            {icon}
+            <NavLink to={ele.path}>{ele.meta}</NavLink>
+          </Menu.Item>
+        )
+      }
+      
     })
     
   }
@@ -71,7 +93,7 @@ function MyLayout(props) {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={[url.pathname]} defaultOpenKeys={[getOpenSub()]} mode="inline">  
+        <Menu theme="dark" defaultSelectedKeys={[getActiveSelectKey()]} defaultOpenKeys={[getOpenSub()]} mode="inline">  
         {renderMenu(routes)}
         </Menu>
       </Sider>
@@ -81,8 +103,12 @@ function MyLayout(props) {
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>后台管理系统</Breadcrumb.Item>
-            <Breadcrumb.Item>工作台</Breadcrumb.Item>
+            {breadcrumbArray.map(ele => {
+              return (
+                <Breadcrumb.Item key={ele.path}>{ele.meta}</Breadcrumb.Item>
+              )
+            })}
+            
           </Breadcrumb>
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
             {props.children}

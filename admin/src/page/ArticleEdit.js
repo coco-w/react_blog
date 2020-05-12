@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useImperativeHandle, forwardRef} from 'react'
 import '../static/css/addArticle.css'
 import {Row, Col, Input, Select, Button, message} from 'antd'
 import { getTypeInfo, addArticle, getArticleDetail, updateArticle } from '../api/app'
+import { useLocation } from 'react-router-dom'
 import Editor from '@/components/Editor'
 const { Option } = Select
-function ArticleEdit(props) {
+function ArticleEdit(props, ref) {
   const [content, setContent] = useState('') //文章内容
   const [title, setTitle] = useState('') //文章标题
   const [id, setId] = useState(0) //文章id
@@ -14,6 +15,12 @@ function ArticleEdit(props) {
   const [isUpdate, setIsUpdate] = useState(false)
   const [submitBtnText, setSubmitBtnText] = useState('发布文章')
   const editorRef = useRef()
+  const url = useLocation()
+  useImperativeHandle(ref, () => {
+    return {
+      update: handleUpdateArticle,
+    }
+  })
   const handleTitleChange = e => {
     setTitle(e.target.value)
   }
@@ -80,7 +87,8 @@ function ArticleEdit(props) {
     getTypeInfo().then(res => {
       setTypeInfo(res.data)
     })
-    const id = props.match.params.id
+    console.log(props)
+    const id = props.id
     if (id) {
       setSubmitBtnText('修改文章')
       setIsUpdate(true)
@@ -94,6 +102,9 @@ function ArticleEdit(props) {
       })
     }
   }, [])
+  useState(() => {
+    console.log('id change')
+  }, [props])
   return (    
     <Row gutter={5}>
       <Col span={24}>
@@ -135,7 +146,7 @@ function ArticleEdit(props) {
         <Row >          
           <Editor 
             ref={editorRef}
-            height="645px"
+            style={{height: '675px'}}
             value={content}
           />
         </Row>
@@ -144,4 +155,4 @@ function ArticleEdit(props) {
   )
 }
 
-export default ArticleEdit
+export default forwardRef(ArticleEdit)

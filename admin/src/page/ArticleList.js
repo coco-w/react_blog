@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef } from 'react'
 import { List, Spin, Button, message, Modal } from 'antd'
 import { CalendarOutlined, FireOutlined, FolderOpenOutlined } from '@ant-design/icons'
 import { getArticleList, deleteArticle } from '../api/app'
 import { useHistory  } from 'react-router-dom'
+import ArticleEdit from './ArticleEdit'
 function ArticleList() {
   const [articleList, setArticleList] = useState([])
   const [total, setTotal] = useState(0)
@@ -11,6 +12,10 @@ function ArticleList() {
   const [visible, setVisible] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [deleteId, setDeleteId] = useState(0)
+  const [editVisible, setEditVisible] = useState(false)
+  const [articleId, setArticleId] = useState(0)
+  const [modal, contextHolder] = Modal.useModal()
+  const updateModal = useRef()
   const history = useHistory()
   useEffect(() => {
     getArticleList({page: 1, pageSize: pageSize}).then(res => {
@@ -29,7 +34,18 @@ function ArticleList() {
     </span>
   )
   const handleEditArticle = (item) => {
-    history.push(`/addArticle/${item.id}`)
+    // history.push({pathname: `/article/addArticle/${item.id}`})
+    const m = modal.confirm({
+      title:"修改文章",
+      onCancel:handleEditCancel,
+      onOk:handleArticleUpdate,
+      style: {top: 0 },
+      width:"1000",
+      content: <div style={{height: '800px'}}>
+        <ArticleEdit id={item.id} ref={updateModal}></ArticleEdit>
+      </div>
+    })
+    
   }
   const handleDeleteArticle = (item) => {
     setDeleteId(item.id)
@@ -37,6 +53,9 @@ function ArticleList() {
   }  
   const handleCancel = () => {
     setVisible(false)
+  }
+  const handleEditCancel = () => {
+    setEditVisible(false)
   }
   const handleOk = () => {
     setConfirmLoading(true)
@@ -52,6 +71,11 @@ function ArticleList() {
       })  
     })
   }
+  const handleArticleUpdate = () => {
+    updateModal.current.update()
+    setEditVisible(false)
+  }
+  
   return (
     <Spin spinning={loading} tip="Loading...">
       <List
@@ -106,6 +130,18 @@ function ArticleList() {
       >
         <p>确认删除?</p>
       </Modal>
+      {/* <Modal
+        title="修改文章"
+        visible={editVisible}
+        confirmLoading={confirmLoading}
+        onCancel={handleEditCancel}
+        onOk={handleArticleUpdate}
+        style={{ top: 0 }}
+        width="1000"
+        destroyOnClose={true}
+      >
+      </Modal> */}
+      {contextHolder}
     </Spin>
   )
 }

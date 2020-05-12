@@ -3,10 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { useHistory } from "react-router-dom"
 import Login from './login'
 import MyLayout from '@/page/Layout'
-// import AddArticle from './AddArticle'
 import Home from './Home'
 import ArticleList from './ArticleList'
-import UpdateArticle from './UpdateArticle'
 import ArticleEdit from './ArticleEdit'
 
 function Main() {
