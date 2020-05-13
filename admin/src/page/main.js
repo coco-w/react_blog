@@ -6,17 +6,23 @@ import MyLayout from '@/page/Layout'
 import Home from './Home'
 import ArticleList from './ArticleList'
 import ArticleEdit from './ArticleEdit'
-
+import UserInfo from './UserInfo'
+import Error from './Error'
 function Main() {
   return (
     <Router>
       <Switch>
         <Route path="/login" component={Login} exact></Route>
         <MyLayout>        
-          <Route path="/" component={Home} exact></Route>
-          <Route path="/article/addArticle" component={ArticleEdit} exact></Route>
-          <Route path="/article/addArticle/:id" component={ArticleEdit} exact></Route>
-          <Route path="/article/articleList" component={ArticleList} exact></Route>          
+          <Switch>
+            <Route path="/" component={Home} exact></Route>
+            <Route path="/article/addArticle" component={ArticleEdit} exact></Route>
+            <Route path="/article/articleList" component={ArticleList} exact></Route>
+            <Route path="/userInfo/user" component={UserInfo} exact></Route>
+            <Route>
+              <Error />
+            </Route>
+          </Switch>
         </MyLayout>
         
       </Switch>

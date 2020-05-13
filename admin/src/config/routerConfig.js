@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default [
   {
     path: '/',    //  一级路由path
@@ -41,9 +39,25 @@ export default [
   },
   {
     path: '/user',
-    meta: '我的信息',
+    meta: '用户信息',
     icon: 'UserOutlined',
     role: [],
+    children: [
+      {
+        path: '/userInfo/user',
+        meta: '用户信息',
+        icon: 'UserOutlined',
+        component: '/UserInfo',
+        role: [],
+      },
+      {
+        path: '/userInfo/AD',
+        meta: '广告信息',
+        icon: 'UserOutlined',
+        component: '/UserAD',
+        role: [],
+      }
+    ]
   }
 
 ]
