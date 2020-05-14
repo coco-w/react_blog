@@ -1,19 +1,20 @@
+'use strict'
 const jwt = require('jsonwebtoken')
 
 module.exports = {
-  testToken: (tk,key) => {        
+  testToken: (tk, key) => {
     return new Promise((resolve, reject) => {
+      const f = false
       if (tk === '') {
-        reject(false)
+        reject(f)
       }
-      jwt.verify(tk,key, (err, decoded) => {
+      jwt.verify(tk, key, (err, decoded) => {
         if (err) {
-          reject(false)
-        }else {        
+          reject(f)
+        } else {
           resolve(decoded.msg.userName)
         }
       })
     })
-        
-  }
+  },
 }
