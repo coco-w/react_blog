@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { getAD } from '../api/default'
+import Router from 'next/router'
 import '../static/style/components/Advert.less'
 const Advert = () => {
   const [Ads, setAds] = useState([])
   useEffect(() => {
     getAD().then(res => {
       setAds(res.data)
-    },[])
-  })
+    })
+  }, [])
   return (
     <div className="ad-div comm-box">
       {Ads.map(ele => {
