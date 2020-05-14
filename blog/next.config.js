@@ -1,7 +1,11 @@
+const withLess = require('@zeit/next-less')
 const withCss = require('@zeit/next-css')
-
-if(typeof require !== 'undefined'){
-    require.extensions['.css']=file=>{}
-}
-
-module.exports = withCss({})
+module.exports = withCss(withLess({
+  // webpack: (config, {}) => {
+  //   config.module.rules.push({
+  //     test: /\.svg$/,
+  //     use: ['@svgr/webpack']
+  //   })
+  //   return config
+  // }
+}))

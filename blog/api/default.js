@@ -44,3 +44,11 @@ export const getArticleListById = params => {
     })
   })
 }
+
+export const getAD = () => {
+  return new Promise(resolve => {
+    axios(`${baseUrl}/ad/getAD`).then(res => {
+      resolve(res.data)
+    })
+  })
+}
