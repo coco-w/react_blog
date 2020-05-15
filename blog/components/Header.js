@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import '../static/style/components/header.css'
+import '../static/style/components/Header.css'
 import { Row, Col, Menu, Icon } from 'antd'
 import { getArticleType } from '../api/default'
 import Router from 'next/router'
