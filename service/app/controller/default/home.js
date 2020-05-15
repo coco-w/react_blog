@@ -4,7 +4,7 @@ const Controller = require('egg').Controller
 
 class HomeController extends Controller {
   async index() {
-    this.ctx.body = 'hello'
+    this.ctx.body = 'hello wlq'
   }
 
   // 获取全部文章
