@@ -95,7 +95,7 @@ function MyLayout(props) {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }} >
-          <Button onClick={handleCheckOut}>登出</Button>          
+                 
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
