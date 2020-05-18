@@ -22,7 +22,7 @@ const myList = (data) => {
    }, [data])
   const handlePaginationChange = async (page) => {
     Router.push({pathname: '/list', query: { page: page, id: data.typeId }, })
-    await getArticleListById({pageSize: 5, page: page, id: data.typeId})
+    await getArticleListById({pageSize: 10, page: page, id: data.typeId})
   }
   const renderer = new marked.Renderer()
   
@@ -69,7 +69,7 @@ const myList = (data) => {
             </List.Item>
           )}
         />
-        <Pagination defaultCurrent={String(data.page)} total={total} pageSize={5} onChange={handlePaginationChange}/>
+        <Pagination defaultCurrent={String(data.page)} total={total} pageSize={10} onChange={handlePaginationChange}/>
       </div>
       <Author key="right"></Author>  
     </Main>     
@@ -79,7 +79,7 @@ const myList = (data) => {
 myList.getInitialProps = async (ctx) => {
   const page = ctx.query.page ? ctx.query.page : 1
   const typeId = ctx.query.id
-  const res =  await getArticleListById({id: typeId, pageSize: 5, page: page})
+  const res =  await getArticleListById({id: typeId, pageSize: 10, page: page})
   return {
     ...res,
     page,
