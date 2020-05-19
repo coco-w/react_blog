@@ -94,8 +94,9 @@ function MyLayout(props) {
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }} >
-                 
+        <Header className="site-layout-background">
+          <span className="header-title">王林强</span>
+          <span>博客管理后台</span>
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>

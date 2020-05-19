@@ -10,4 +10,11 @@
 
 .site-layout-background {
   background: #fff;
+  cursor: default;
+  padding: 0 15px;
+}
+.header-title {
+  color: #1e90ff;
+  font-size: 1.4rem;
+  text-align: left;
 }

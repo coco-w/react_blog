@@ -8,6 +8,7 @@ import ArticleList from './ArticleList'
 import ArticleEdit from './ArticleEdit'
 import UserInfo from './UserInfo'
 import Error from './Error'
+import Advertisement from './Advertisement'
 function Main() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function Main() {
             <Route path="/article/addArticle" component={ArticleEdit} exact></Route>
             <Route path="/article/articleList" component={ArticleList} exact></Route>
             <Route path="/userInfo/user" component={UserInfo} exact></Route>
+            <Route path="/userInfo/AD" component={Advertisement} exact></Route>
             <Route>
               <Error />
             </Route>

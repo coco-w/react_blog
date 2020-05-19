@@ -1,4 +1,3 @@
-export const baseUrl = process.env.NODE_ENV === 'porduction' ? 'http://porduciton.com'
-: 'http://106.52.70.253:7001'
+export const baseUrl = 'https://www.wlq.cool:7001'
 
-export const imgUrl = 'http://qa0aj2m98.bkt.clouddn.com/'
+export const imgUrl = 'http://img.wlq.cool.com/'
