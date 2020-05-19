@@ -29,7 +29,7 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-service",
+    "start":  "egg-scripts start --port=7001 --https.key=/etc/nginx/2_www.wlq.cool.key --https.cert=/etc/nginx/1_www.wlq.cool_bundle.crt --daemon --title=egg-server-service ",
     "stop": "egg-scripts stop --title=egg-server-service",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
