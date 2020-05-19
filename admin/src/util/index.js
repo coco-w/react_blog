@@ -17,7 +17,7 @@ export const randomNum = () => {
 }
 
 export const deepFindFirst = (arr, val, key) => {  
-  let result = null
+  let result = []
   try {
     (function poll(arr, parent) {
       for (let i = 0; i < arr.length; i++) {

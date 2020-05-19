@@ -11,6 +11,7 @@ const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 function MyLayout(props) {
+  console.log(routes)
   const [collapsed, setCollapsed] = useState(false)
   const [activeSelectedKey, setActiveSelectedKey] = useState('')
   const [activeOpenKey, setActiveOpenKey] = useState('')
@@ -18,14 +19,12 @@ function MyLayout(props) {
   const url = useLocation()
   useEffect(() => {
     getbreadcrumb()
-    console.log(url)
   }, [url])
   const onCollapse = () => {
     setCollapsed(!collapsed)
   }
   const getActiveRouter = () => {
     const reg = /\/[0-9]+$/
-    console.log(url.pathname.replace(reg, ''))
     return deepFindFirst(routes, url.pathname.replace(reg, ''), 'path')
   }
   
@@ -38,25 +37,22 @@ function MyLayout(props) {
     
     const activeRouter = getActiveRouter()
     
-    if (activeRouter.length > 1) {
+    if (activeRouter && activeRouter.length > 1) {
       return activeRouter[1].path
     }else {
       return ''
     }
   }
   const getActiveSelectKey = () => {
-    const path = getActiveRouter()[0].path
-    console.log(path)
-    return path
+    const path = getActiveRouter()
+    return path[0] ? path[0].path : ''
   }
   const handleCheckOut = () => {
     checkCookie('token')
     checkCookie('user')
     checkCookie('user_id')
-    console.log(getCookie())
   }
   const renderMenu = data => {
-    
     return data.map(ele => {
       const icon = ele.icon ? React.createElement(Icon[ele.icon]) : ''
       if (ele.children) {
@@ -99,7 +95,7 @@ function MyLayout(props) {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }} >
-          <Button onClick={handleCheckOut}>登出</Button>          
+                 
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
