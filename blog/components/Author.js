@@ -6,7 +6,7 @@ class Author extends Component {
     return (
       <div className="author-div comm-box">
         <div>
-          <Avatar size={100} src="http://q8qba8r0y.bkt.clouddn.com/DysSDYDVAAAysNJ158713020901590774.jpg"></Avatar>          
+          <Avatar size={100} src="https://img.wlq.cool/42274898.jpg"></Avatar>          
         </div>
         <div className="author-introduction">
           你好呀！这是个人介绍！！你知道了吗？？
