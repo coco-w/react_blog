@@ -1,3 +1,2 @@
-
-export const baseUrl = 'http://106.52.70.253:7001'
+export const baseUrl = 'https://www.wlq.cool:7001'
 
