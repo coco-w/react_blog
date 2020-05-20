@@ -24,7 +24,24 @@ class ADController extends Controller {
       }
     }
   }
-
+  async updateAD() {
+    const ADs = this.ctx.request.body
+    console.log(this.ctx.request.body)
+    try {
+      const res = await this.app.mysql.update('ad', ADs)
+      const updateSuccess = res.affectedRows === 1
+      this.ctx.body = {
+        code: '200',
+        isSuccess: updateSuccess,
+      }
+    } catch (error) {
+      console.log(error)
+      this.ctx.body = {
+        code: '400',
+        msg: '修改失败',
+      }
+    }
+  }
 
 }
 
