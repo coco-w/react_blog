@@ -36,11 +36,12 @@ function Login(props) {
     setIsLoading(true)    
     userLogin(values).then(res => {      
       setIsLoading(false)
-      if (res.code == 200) {
+      if (res.code === '200') {
         setCookie('token',res.token, 1)
         setCookie('user',res.data.userName, 1)
         setCookie('user_id',res.data.id, 1)
-        console.log(getCookie('token'))
+        setCookie('uploadToken', res.uploadToken, 1)
+        console.log(getCookie('token'), getCookie('uploadToken'))
         props.history.push('/')
       }else {
         message.error('账号或密码错误')

@@ -6,12 +6,13 @@ import 'easymde/dist/easymde.min.css'
 import * as qiniu from 'qiniu-js'
 import './index.css'
 import { getUploadToken } from '@/api/app'
+import { getCookie } from '@/lib/index'
 import { fileToBlob, randomNum } from '@/util'
 import { imgUrl } from '@/config/baseConfig'
 
 function Tinymce(props, ref) {
   const [value, setValue] = useState('')
-  const [upToken, setUpToken] = useState('')
+  const [upToken, setUpToken] = useState(getCookie('uploadToken'))
   const [isLoading, setIsLoading] = useState(false)
   const [codeMirror, setCodeMirror] = useState(null)
   const [cursor, setCursor] = useState(null)
@@ -24,11 +25,11 @@ function Tinymce(props, ref) {
   const handleChange = (val) => {
     setValue(val)
   }
-  useEffect(() => {
-    getUploadToken().then(res => {
-      setUpToken(res.uptoken)
-    })
-  }, [])
+  // useEffect(() => {
+  //   getUploadToken().then(res => {
+  //     setUpToken(res.uptoken)
+  //   })
+  // }, [])
   useEffect(() => {
     setValue(props.value)
   }, [props.value])
@@ -60,11 +61,6 @@ function Tinymce(props, ref) {
       const endCursor = Object.assign(cursor)
       codeMirror.replaceRange(img, cursor, endCursor)
       endCursor.ch += img.length
-      
-      
-      
-      
-      // codeMirror.replaceSelection(name)
       const newValue = codeMirror.getValue()
       setValue(newValue)
       setIsLoading(false)

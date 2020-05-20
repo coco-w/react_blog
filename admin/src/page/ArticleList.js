@@ -108,8 +108,7 @@ function ArticleList() {
             extra={
               <div style={{marginTop: '30px'}}>
                 <Button type="primary"style={{marginRight: '30px'}} onClick={handleEditArticle.bind(this, item)}>修改</Button> 
-                <Button type="primary" danger onClick={handleDeleteArticle.bind(this, item)}>删除</Button>                
-                      
+                <Button type="primary" danger onClick={handleDeleteArticle.bind(this, item)}>删除</Button>   
               </div>
             }
           >

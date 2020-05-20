@@ -23,7 +23,5 @@ export const getCookie = (cname) =>{
 }
 
 export const checkCookie = (cname) =>{
-  
-  setCookie(cname,'',30)      
-  
+  setCookie(cname,'',30)
 }

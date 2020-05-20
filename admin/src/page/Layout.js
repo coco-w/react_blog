@@ -83,7 +83,11 @@ function MyLayout(props) {
     })
     
   }
-  
+  const buttonStyle = {
+    position: 'absolute',
+    right: '20px',
+    top: '15px'
+  }
   return (
     
     <Layout style={{ minHeight: '100vh' }}>
@@ -97,6 +101,7 @@ function MyLayout(props) {
         <Header className="site-layout-background">
           <span className="header-title">王林强</span>
           <span>博客管理后台</span>
+          <Button style={buttonStyle} onClick={handleCheckOut}>登出</Button>
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
