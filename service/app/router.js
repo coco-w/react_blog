@@ -8,4 +8,5 @@ module.exports = app => {
   require('./router/admin')(app)
   require('./router/upload')(app)
   require('./router/ad')(app)
+  require('./router/user')(app)
 };
