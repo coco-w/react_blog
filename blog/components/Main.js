@@ -19,10 +19,11 @@ const Main = (props) => {
         <Header />
         <Row className="comm-main" type="flex" justify="center" id="pNprogress">
           <Col className="comm-left" xs={24} sm={24} md={17} lg={13} lx={14}>            
-          {render('left')}
+            {render('left')}
           </Col>
           <Col className="comm-right" xs={0} sm={0} md={7} lg={5} lx={4}>
-          {render('right')}
+            <Author></Author>
+            {render('right')}
           </Col>
         </Row>   
         <Footer /> 

@@ -13,7 +13,7 @@ const Header = (props) => {
       setNavArray(res.data)      
     }
     fetchData()
-  },[props.init])
+  },[])
   return (
     <div className="header">
       <Row type="flex" justify="center">

@@ -73,7 +73,6 @@ const myList = (data) => {
         </div>
       </div>
       <div key="right">
-        <Author></Author>
         <Affix offsetTop={5}>
           <div className="detailed-nav comm-box">
             <div className="nav-title">

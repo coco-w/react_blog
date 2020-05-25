@@ -52,3 +52,11 @@ export const getAD = () => {
     })
   })
 }
+
+export const getUserInfo = () => {
+  return new Promise(resolve => {
+    axios(`${baseUrl}/user/getUserInfo`).then(res => {
+      resolve(res.data)
+    })
+  })
+}

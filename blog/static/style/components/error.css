@@ -1,11 +1,22 @@
+#__next {
+  height: 100%;
+}
 .error-404 {
   background: #33cc99;
   color: #fff;
   font-family: 'Open Sans', sans-serif;
-  max-height: 700px;
+  height: 100%;
   overflow: hidden;
 }
-
+#clouds {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 9;
+  overflow: hidden;
+}
 .c {
   text-align: center;
   display: block;

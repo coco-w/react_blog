@@ -71,7 +71,7 @@ const Home = (data) => {
         />
         <Pagination defaultCurrent={data.page} total={total} pageSize={10} onChange={handlePaginationChange}/>
       </div>
-      <Author key="right"></Author>  
+      <div key="right"></div>
     </Main>
   )
 }
