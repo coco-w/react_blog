@@ -13,21 +13,21 @@ export const userLogin = params => {
 export const testToken = params => {
   return axios.request({
     url: '/admin/test',
-    method: 'post',    
+    method: 'post',
   })
 }
 
 export const getTypeInfo = () => {
   return axios.request({
     url: '/admin/getTypeInfo',
-    method: 'get',    
+    method: 'get',
   })
 }
 
 export const addArticle = data => {
   return axios.request({
     url: '/admin/addArticle',
-    method: 'post',    
+    method: 'post',
     data: {
       ...data
     }
@@ -37,7 +37,7 @@ export const addArticle = data => {
 export const getArticleList = data => {
   return axios.request({
     url: '/admin/getArticleList',
-    method: 'get',    
+    method: 'get',
     params: {
       ...data
     }
@@ -47,7 +47,7 @@ export const getArticleList = data => {
 export const getArticleDetail = data => {
   return axios.request({
     url: '/admin/getArticleDetail',
-    method: 'get',    
+    method: 'get',
     params: {
       ...data
     }
@@ -57,7 +57,7 @@ export const getArticleDetail = data => {
 export const deleteArticle = data => {
   return axios.request({
     url: '/admin/deleteArticle',
-    method: 'delete',    
+    method: 'delete',
     data: {
       ...data
     }
@@ -68,7 +68,7 @@ export const deleteArticle = data => {
 export const updateArticle = data => {
   return axios.request({
     url: '/admin/updateArticle',
-    method: 'post',    
+    method: 'post',
     data: {
       ...data
     }
@@ -78,6 +78,6 @@ export const updateArticle = data => {
 export const getUploadToken = () => {
   return axios.request({
     url: '/upload/uptoken',
-    method: 'get',        
+    method: 'get',
   })
 }

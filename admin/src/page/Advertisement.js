@@ -87,7 +87,7 @@ function UserInfo() {
       }
     },
     {
-      title: '连接',
+      title: '链接',
       dataIndex: 'link',
       key: 'link',
     },

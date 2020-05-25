@@ -51,6 +51,7 @@ function MyLayout(props) {
     checkCookie('token')
     checkCookie('user')
     checkCookie('user_id')
+    
   }
   const renderMenu = data => {
     return data.map(ele => {

@@ -2,7 +2,7 @@ import axios from './index'
 
 export const getAD = params => {
   return axios.request({
-    url: '/ad/getAD',
+    url: '/admin/getAD',
     method: 'get'
   })
 }
